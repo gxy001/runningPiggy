@@ -6,7 +6,7 @@
                     <div class="col title-text">Time</div>
                 </div>
                 <div class="row">
-                    <div class="col subtitle-text">00:00:00</div>
+                    <div class="col subtitle-text">{{timerString}}</div>
                 </div>
             </div>
             <div class="col col-50 display-item">
@@ -14,7 +14,7 @@
                     <div class="col title-text">Distance</div>
                 </div>
                 <div class="row">
-                    <div class="col subtitle-text">0 KM</div>
+                    <div class="col subtitle-text">0 km</div>
                 </div>
             </div>
         </div>
@@ -22,8 +22,8 @@
             <div id="map-canvas" class="col"></div>
         </div>
         <div class="row">
-            <div class="col">
-                <button class="button button-energized button-workout">Start Workout</button>
+            <div class="col button-center">
+                <button class="button " ng-class="{'button-energized':!hasStarted, 'button-assertive':hasStarted}" ng-click="updateButtonStatus()">{{buttonCaption}}</button>
             </div>
         </div>
     </ion-content>
@@ -80,4 +80,3 @@
 
     google.maps.event.addDomListener(window, 'load', initialize);
 </script>
-

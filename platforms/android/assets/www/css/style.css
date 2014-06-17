@@ -6,19 +6,19 @@
 
 .title-text {
     text-align: center;
-    font: bold 25px Calibri;
+    font-weight: bold;
+    font-size: 25px;
     color: #2f2f2f;
 }
 
 .subtitle-text {
     text-align: center;
-    font: 25px Calibri;
+    font-size: 25px;
     color: #2f2f2f;
 }
 
-.button-workout {
-    position: absolute;
-    bottom: 10px;
+.button-center {
+    text-align: center;
 }
 
 #map-canvas{

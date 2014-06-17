@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope) {
 })
 
-.controller('NewWorkoutCtrl', function($scope, $timeout) {
+.controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout) {
             $scope.hasStarted = false;
             $scope.buttonCaption = "Start Workout";
             $scope.timerString = "00:00:00";
@@ -15,13 +15,15 @@ angular.module('starter.controllers', [])
                 $scope.hasStarted = !$scope.hasStarted;
                 if($scope.hasStarted){
                     startTime = Date.now();
-                    mytimeout = $timeout($scope.onTimeout,1000);
+                    mytimeout = $timeout($scope.onTimeout, 1000);
+                    $rootScope.tabsInvisible = true;
                     $scope.buttonCaption = "Stop Workout";
                 }
                 else{
                     //$scope.$broadcast('timer-stopped', $scope.timer);
                     $scope.timerString = "00:00:00";
                     $timeout.cancel(mytimeout);
+                    $rootScope.tabsInvisible = false;
                     $scope.buttonCaption = "Start Workout";
                 }
             };
