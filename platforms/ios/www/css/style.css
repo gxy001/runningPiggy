@@ -1,0 +1,28 @@
+/* Empty. Add your own CSS if you like */
+.display-item {
+    background-color: #f6f6f6;
+    border: 1px solid #ffffff;
+}
+
+.title-text {
+    text-align: center;
+    font-weight: bold;
+    font-size: 25px;
+    color: #2f2f2f;
+}
+
+.subtitle-text {
+    text-align: center;
+    font-size: 25px;
+    color: #2f2f2f;
+}
+
+.button-center {
+    text-align: center;
+}
+
+#map-canvas{
+    height: 400px;
+    margin: 0;
+    padding: 0;
+}

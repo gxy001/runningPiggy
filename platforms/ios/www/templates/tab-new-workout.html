@@ -1,0 +1,35 @@
+<ion-view title="New Workout">
+    <ion-content class="has-header">
+        <div class="row">
+            <div class="col col-50 display-item">
+                <div class="row">
+                    <div class="col title-text">Time</div>
+                </div>
+                <div class="row">
+                    <div class="col subtitle-text">{{timerString}}</div>
+                </div>
+            </div>
+            <div class="col col-50 display-item">
+                <div class="row">
+                    <div class="col title-text">Distance</div>
+                </div>
+                <div class="row">
+                    <div class="col subtitle-text">0 km</div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div ui-map="model.runningMap" ui-options="mapOptions" id="map-canvas" class="col">
+            </div>
+            <div ng-repeat="marker in mapMarkers" ui-map-marker="mapMarkers[$index]">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col button-center">
+                <button class="button " ng-class="{'button-energized':!hasStarted, 'button-assertive':hasStarted}" ng-click="updateButtonStatus()">{{buttonCaption}}</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+
