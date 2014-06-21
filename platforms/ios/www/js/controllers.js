@@ -4,10 +4,12 @@ angular.module('starter.controllers', [])
 })
 
 .controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout) {
-//Set timer
+//Set timer and distance
             $scope.hasStarted = false;
             $scope.buttonCaption = "Start Workout";
             $scope.timerString = "00:00:00";
+            var zeroInt = 0;
+            $scope.distance = zeroInt.toFixed(2);
             
             var startTime = Date.now();
             var mytimeout = null;
@@ -15,6 +17,9 @@ angular.module('starter.controllers', [])
             $scope.updateButtonStatus = function (){
                 $scope.hasStarted = !$scope.hasStarted;
                 if($scope.hasStarted){
+                //set timer
+                    $scope.timerString = "00:00:00";
+                    $scope.distance = 0;
                     startTime = Date.now();
                     mytimeout = $timeout($scope.onTimeout, 1000);
                     $rootScope.tabsInvisible = true;
@@ -30,19 +35,21 @@ angular.module('starter.controllers', [])
                     if(runningPath != null){
                         runningPath.setMap(null);
                     }
+            
+                //start drawing running path
                     runningPath = new google.maps.Polyline(polyOptions);
                     path = runningPath.getPath();
                     startDrawRunningPath();
                 }
                 else{
-                    //$scope.$broadcast('timer-stopped', $scope.timer);
-                    $scope.timerString = "00:00:00";
+                //set timer
                     $timeout.cancel(mytimeout);
                     $rootScope.tabsInvisible = false;
                     $scope.buttonCaption = "Start Workout";
             
+                //stop drawing running path
                     stopDrawRunningPath();
-                    $scope.mapMarkers.push(new google.maps.Marker({ map: $scope.model.runningMap, position: latLng }));
+                    $scope.mapMarkers.push(new google.maps.Marker({ map: $scope.model.runningMap, position: endLatLng }));
                 }
             };
             
@@ -81,13 +88,17 @@ angular.module('starter.controllers', [])
 //Display Google map
             var latitude = 31;
             var longitude = 121;
-            var LatLng = null;
+            var startLatLng = null;
+            var endLatLng = null;
+            
             $scope.model = { runningMap: undefined };
             $scope.mapMarkers = [];
             $scope.mapOptions = {
                 center: new google.maps.LatLng(latitude, longitude),
                 zoom: 17,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                zoomControl: false,
+                streetViewControl: false
             };
             
             var getGeolocation = function(onSuccess, onError){
@@ -108,9 +119,9 @@ angular.module('starter.controllers', [])
             var setStartLocation = function(position){
                 longitude = position.coords.longitude;
                 latitude = position.coords.latitude;
-                latLng = setLatLngPosition(position);
-                $scope.model.runningMap.setCenter(latLng);
-                $scope.mapMarkers.push(new google.maps.Marker({ map: $scope.model.runningMap, position: latLng, animation: google.maps.Animation.DROP}));
+                endLatLng = setLatLngPosition(position);
+                $scope.model.runningMap.setCenter(endLatLng);
+                $scope.mapMarkers.push(new google.maps.Marker({ map: $scope.model.runningMap, position: endLatLng, animation: google.maps.Animation.DROP}));
 
                 $scope.$apply();
             };
@@ -125,6 +136,7 @@ angular.module('starter.controllers', [])
 //Draw the running path on map
             var watchLocationProcess = null;
             var routePoints = [];
+            var realDistance = 0;
             
             var polyOptions = {
                 strokeColor: '#f0563d',
@@ -140,11 +152,11 @@ angular.module('starter.controllers', [])
             
             var watchRunningPath = function(position){
                 setStartLocation(position);
-                latLng = setLatLngPosition(position);
-                routePoints.push(latLng);
+                startLatLng = setLatLngPosition(position);
+                routePoints.push(startLatLng);
             
-                $scope.model.runningMap.setCenter(latLng);
-                path.push(latLng);
+                $scope.model.runningMap.setCenter(startLatLng);
+                path.push(startLatLng);
             
                 if(watchLocationProcess == null){
                     runningPath.setMap($scope.model.runningMap);
@@ -153,11 +165,14 @@ angular.module('starter.controllers', [])
             };
             
             var drawRunningPath = function(position){
-                latLng = setLatLngPosition(position);
-                routePoints.push(latLng);
+                endLatLng = setLatLngPosition(position);
+                routePoints.push(endLatLng);
             
-                $scope.model.runningMap.setCenter(latLng);
-                path.push(latLng);
+                $scope.model.runningMap.setCenter(endLatLng);
+                path.push(endLatLng);
+            
+                realDistance += google.maps.geometry.spherical.computeDistanceBetween(startLatLng, endLatLng)/1000;
+                $scope.distance = realDistance.toFixed(2);
             };
             
             var stopDrawRunningPath = function(){
