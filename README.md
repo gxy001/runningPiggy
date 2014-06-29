@@ -1,10 +1,23 @@
-Ionic App Base
+Piggy's 1st running app
 =====================
+It is the 1st mobile app that Piggy has ever written. The app is inspired by the fact that Piggy's started enjoying the 3km run recently. The ultimate goal of the running app is to track the time, distance and running path during the workout, save the running data and share at Facebook.
+
+###Screenshot ("New Workout" tab):
+
+![ScreenShot](https://raw.githubusercontent.com/gxy001/runningPiggy/master/WorkoutScreenshot.jpg)
+
+###Used Technologies:
+
+The following technologies are currently used in the app:
+* Ionic (with AngularJS + Cordova)
+* Google Maps JavaScrit API w/ geometry library
+
+##About Ionic App Base
 
 A starting project for Ionic that optionally supports
 using custom SCSS.
 
-## Using this project
+### Using this project
 
 We recommend using the `ionic` utility to create new Ionic projects that are based on this project but use a ready-made starter template.
 
@@ -23,7 +36,7 @@ $ ionic start myProject tabs
 
 More info on this can be found on the Ionic [Getting Started](http://ionicframework.com/getting-started) page.
 
-## Installation
+### Installation
 
 While we recommend using the `ionic` utility to create new Ionic projects, you can use this repo as a barebones starting point to your next Ionic app.
 
@@ -36,7 +49,7 @@ $ npm install
 $ gulp install
 ```
 
-## Using Sass (optional)
+### Using Sass (optional)
 
 This project makes it easy to use Sass (the SCSS syntax) in your projects. This enables you to override styles from Ionic, and benefit from
 Sass's great features.
@@ -52,7 +65,7 @@ the include to your `ionic.app.css` file which now contains all your Sass code a
 -->
 ```
 
-## Updating Ionic
+### Updating Ionic
 
 To update to a new version of Ionic, open bower.json and change the version listed there.
 
