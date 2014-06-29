@@ -23,4 +23,34 @@ angular.module('starter.services', [])
       return friends[friendId];
     }
   }
+})
+.factory('fbAuth', function(){
+    var _self = this;
+    
+    FB.Event.subscribe('auth.authResponseChange', function(response){
+        if(response.status === 'connected'){
+            _self.getUserInfo();
+        }
+        else{
+            
+        }
+    });
+    
+    var getUserInfo = function(){
+        var _self = this;
+        FB.api('/me', function(response){
+            $rootScope.$apply(function(){
+                $rootScope.user = _self.user = response;
+            });
+        });
+    };
+    
+    var logout = function(){
+        var _self = this;
+        FB.logout(function(response){
+            $rootScope.$apply(function(){
+                $rootScope.user = _self.user = {};
+            });
+        });
+    };
 });

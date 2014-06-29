@@ -7,7 +7,40 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.map'])
 
-.run(function($ionicPlatform, $rootScope) {
+.run(['$ionicPlatform', '$rootScope', '$window',
+    function($ionicPlatform, $rootScope, $window) {
+        //Facebook login
+    $rootScope.user = {};
+    $window.fbAsyncInit = function(){
+        FB.init({
+            appId: '760732033979791',
+            channelUrl: 'template/channel.html',
+            status: true,
+            cookie: true,
+            xfbml: true
+        });
+        
+        //fbAuth.watchAuthenticationStatusChange();
+    };
+        
+    //boileplate code to load the Facebook JavaScript SDK
+    (function(d){
+        var js,
+        id = 'facebook-jssdk',
+        ref = d.getElementsByTagName('script')[0];
+         
+        if (d.getElementById(id)){
+            return;
+        }
+         
+        js = d.createElement('script');
+        js.id = id;
+        js.async = true;
+        js.src = "http://connect.facebook.net/en_US/all.js";
+     
+        ref.parentNode.insertBefore(js, ref);
+    }(document));
+    
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -18,10 +51,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-
+    
+    $rootScope.showHeader = false;
     $rootScope.tabsInvisible = false;
   });
-})
+}])
 
 .config(function($stateProvider, $urlRouterProvider) {
 
@@ -78,9 +112,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         }
       }
     })
+      
+     .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl'
+     })
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/login');
 
 });
 

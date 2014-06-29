@@ -206,4 +206,11 @@ angular.module('starter.controllers', [])
 })
 
 .controller('SettingsCtrl', function($scope) {
+})
+
+.controller('LoginCtrl', function($scope, $rootScope, $location){
+    $scope.navigate = function(){
+        $rootScope.showHeader = true;
+        $location.url('/tab/dash');
+    }
 });
