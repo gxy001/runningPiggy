@@ -24,17 +24,21 @@ angular.module('starter.services', [])
     }
   }
 })
-.factory('fbAuth', function(){
-    var _self = this;
+
+.service('fbAuth', function($location, $rootScope){
+
+    var watchAuthStatusChange = function(){
+        var _self = this;
     
-    FB.Event.subscribe('auth.authResponseChange', function(response){
-        if(response.status === 'connected'){
-            _self.getUserInfo();
-        }
-        else{
-            
-        }
-    });
+        FB.Event.subscribe('auth.authStatusChange', function(response){
+            if(response.status === 'connected'){
+                _self.getUserInfo();
+            }
+            else{
+                $location.url('/login');
+            }
+        });
+    };
     
     var getUserInfo = function(){
         var _self = this;
@@ -51,6 +55,7 @@ angular.module('starter.services', [])
             $rootScope.$apply(function(){
                 $rootScope.user = _self.user = {};
             });
+            
         });
     };
 });

@@ -1,6 +1,16 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, $rootScope, $location) {
+    $scope.user = $rootScope.user;
+    $scope.logout = function(){
+        FB.logout(function(response){
+            $rootScope.$apply(function(){
+                $rootScope.user = {};
+                $rootScope.showHeader = false;
+                $location.url('/login');
+            });
+        });
+    }
 })
 
 .controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout) {
@@ -209,8 +219,23 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $location){
-    $scope.navigate = function(){
-        $rootScope.showHeader = true;
-        $location.url('/tab/dash');
-    }
+    $scope.login = function(){
+        FB.login(function(response) {
+            if (response.status === 'connected') {
+                FB.api('/me', function(response){
+                    $rootScope.$apply(function(){
+                        $rootScope.user = response;
+                    });
+                });
+                
+                $rootScope.showHeader = true;
+                $location.url('/tab/dash');
+            }
+            else {
+                
+            }
+        },
+        {scope: 'public_profile,email'}
+        );
+    };
 });

@@ -7,8 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.map'])
 
-.run(['$ionicPlatform', '$rootScope', '$window',
-    function($ionicPlatform, $rootScope, $window) {
+.run(['$ionicPlatform', '$rootScope', '$window', '$location',
+    function($ionicPlatform, $rootScope, $window, $location) {
         //Facebook login
     $rootScope.user = {};
     $window.fbAsyncInit = function(){
@@ -20,7 +20,25 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
             xfbml: true
         });
         
-        //fbAuth.watchAuthenticationStatusChange();
+        //fbAuth.watchAuthStatusChange();
+      
+        FB.getLoginStatus(function(response) {
+            if (response.status === 'connected') {
+                FB.api('/me', function(response){
+                    $rootScope.$apply(function(){
+                        $rootScope.user = response;
+                    });
+                });
+                
+                $rootScope.showHeader = true;
+                $location.url('/tab/dash');
+            }
+            else {
+                $location.url('/login');
+            }
+        },
+        {scope: 'public_profile,email'}
+        );
     };
         
     //boileplate code to load the Facebook JavaScript SDK
