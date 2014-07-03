@@ -205,12 +205,24 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('SettingsCtrl', function($scope) {
+.controller('SettingsCtrl', function($scope, $rootScope, $location) {
+    $scope.logout = function(){
+        FB.logout(function(response){
+            $rootScope.$apply(function(){
+                $rootScope.user = {};
+                $rootScope.showHeader = false;
+                $location.url('/login');
+            });
+        });
+    }
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $location){
-    $scope.navigate = function(){
-        $rootScope.showHeader = true;
-        $location.url('/tab/dash');
-    }
+    $scope.login = function(){
+        FB.login(function(response) {
+            loginCallback(response, $rootScope, $location);
+        },
+        {scope: 'public_profile,email'}
+        );
+    };
 });

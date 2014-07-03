@@ -1,16 +1,6 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope, $rootScope, $location) {
-    $scope.user = $rootScope.user;
-    $scope.logout = function(){
-        FB.logout(function(response){
-            $rootScope.$apply(function(){
-                $rootScope.user = {};
-                $rootScope.showHeader = false;
-                $location.url('/login');
-            });
-        });
-    }
+.controller('DashCtrl', function($scope) {
 })
 
 .controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout) {
@@ -215,25 +205,22 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('SettingsCtrl', function($scope) {
+.controller('SettingsCtrl', function($scope, $rootScope, $location) {
+    $scope.logout = function(){
+        FB.logout(function(response){
+            $rootScope.$apply(function(){
+                $rootScope.user = {};
+                $rootScope.showHeader = false;
+                $location.url('/login');
+            });
+        });
+    }
 })
 
 .controller('LoginCtrl', function($scope, $rootScope, $location){
     $scope.login = function(){
         FB.login(function(response) {
-            if (response.status === 'connected') {
-                FB.api('/me', function(response){
-                    $rootScope.$apply(function(){
-                        $rootScope.user = response;
-                    });
-                });
-                
-                $rootScope.showHeader = true;
-                $location.url('/tab/dash');
-            }
-            else {
-                
-            }
+            loginCallback(response, $rootScope, $location);
         },
         {scope: 'public_profile,email'}
         );

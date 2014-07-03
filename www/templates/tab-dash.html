@@ -1,7 +1,12 @@
 <ion-view title="Dashboard">
   <ion-content class="has-header padding">
-    {{user}}
-    </br>
-    <button class="button" ng-click="logout()">Logout</button>
+    <div class="row">
+        <div>
+            <img ng-src="{{pictureUrl}}"></img>
+        </div>
+        <div class="col display-item">
+            {{user.name}}
+        </div>
+    </div>
   </ion-content>
 </ion-view>

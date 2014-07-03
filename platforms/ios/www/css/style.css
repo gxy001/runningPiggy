@@ -21,6 +21,10 @@
     text-align: center;
 }
 
+.button-rounded {
+    border-radius: 50px !important;
+}
+
 #map-canvas{
     height: 225px;
     margin: 0;

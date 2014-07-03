@@ -41,6 +41,13 @@ module.exports = [
         "clobbers": [
             "navigator.compass"
         ]
+    },
+    {
+        "file": "plugins/com.phonegap.plugins.facebookconnect/www/phonegap/plugin/facebookConnectPlugin/facebookConnectPlugin.js",
+        "id": "com.phonegap.plugins.facebookconnect.FacebookConnectPlugin",
+        "clobbers": [
+            "window.facebookConnectPlugin"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -50,7 +57,8 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.2.10",
     "org.apache.cordova.device-motion": "0.2.8",
     "org.apache.cordova.device-orientation": "0.3.7",
-    "org.apache.cordova.geolocation": "0.3.8"
+    "org.apache.cordova.geolocation": "0.3.8",
+    "com.phonegap.plugins.facebookconnect": "0.5.1"
 }
 // BOTTOM OF METADATA
 });

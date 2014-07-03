@@ -1,4 +1,29 @@
 // Ionic Starter App
+var loginCallback = function(response, $rootScope, $location){
+    if (response.status === 'connected') {
+            FB.api('/me', function(response){
+                $rootScope.$apply(function(){
+                    $rootScope.user = response;
+                });
+            });
+        
+            FB.api('/me/picture',
+            function(response){
+                if(response && !response.error){
+                   $rootScope.pictureUrl = response.data.url;
+                }
+                else{
+                    $rootScope.pictureUrl = response.error;
+                }
+            });
+        
+            $rootScope.showHeader = true;
+            $location.url('/tab/dash');
+        }
+        else {
+            $location.url('/login');
+        }
+    };
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -7,20 +32,27 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ui.map'])
 
-.run(['$ionicPlatform', '$rootScope', '$window',
-    function($ionicPlatform, $rootScope, $window) {
+.run(['$ionicPlatform', '$rootScope', '$window', '$location',
+    function($ionicPlatform, $rootScope, $window, $location) {
         //Facebook login
     $rootScope.user = {};
     $window.fbAsyncInit = function(){
         FB.init({
             appId: '760732033979791',
+            nativeInterface: CDV.FB,
             channelUrl: 'template/channel.html',
             status: true,
             cookie: true,
             xfbml: true
         });
         
-        //fbAuth.watchAuthenticationStatusChange();
+        //fbAuth.watchAuthStatusChange();
+      
+        FB.getLoginStatus(function(response) {
+            loginCallback(response, $rootScope, $location);
+        },
+        {scope: 'public_profile,email'}
+        );
     };
         
     //boileplate code to load the Facebook JavaScript SDK

@@ -1,4 +1,29 @@
 // Ionic Starter App
+var loginCallback = function(response, $rootScope, $location){
+    if (response.status === 'connected') {
+            FB.api('/me', function(response){
+                $rootScope.$apply(function(){
+                    $rootScope.user = response;
+                });
+            });
+        
+            FB.api('/me/picture',
+            function(response){
+                if(response && !response.error){
+                   $rootScope.pictureUrl = response.data.url;
+                }
+                else{
+                    $rootScope.pictureUrl = response.error;
+                }
+            });
+        
+            $rootScope.showHeader = true;
+            $location.url('/tab/dash');
+        }
+        else {
+            $location.url('/login');
+        }
+    };
 
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -14,6 +39,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $window.fbAsyncInit = function(){
         FB.init({
             appId: '760732033979791',
+            nativeInterface: CDV.FB,
             channelUrl: 'template/channel.html',
             status: true,
             cookie: true,
@@ -23,19 +49,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         //fbAuth.watchAuthStatusChange();
       
         FB.getLoginStatus(function(response) {
-            if (response.status === 'connected') {
-                FB.api('/me', function(response){
-                    $rootScope.$apply(function(){
-                        $rootScope.user = response;
-                    });
-                });
-                
-                $rootScope.showHeader = true;
-                $location.url('/tab/dash');
-            }
-            else {
-                $location.url('/login');
-            }
+            loginCallback(response, $rootScope, $location);
         },
         {scope: 'public_profile,email'}
         );

@@ -79,5 +79,24 @@
     </array>
     <key>CFBundleShortVersionString</key>
     <string>0.0.1</string>
+    <key>FacebookAppID</key>
+    <string>760732033979791</string>
+    <key>FacebookDisplayName</key>
+    <string>Running Piggy</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb760732033979791</string>
+        </array>
+      </dict>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>fb760732033979791</string>
+        </array>
+      </dict>
+    </array>
   </dict>
 </plist>
