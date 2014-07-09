@@ -1,12 +1,23 @@
 <ion-view title="Dashboard">
   <ion-content class="has-header padding">
-    <div class="row">
-        <div>
+    <div class="list">
+        <div class="item item-thumbnail-left">
             <img ng-src="{{pictureUrl}}"></img>
-        </div>
-        <div class="col display-item">
-            {{user.name}}
+            <h2>{{user.name}}</h2>
+            <p>Total Workout: 00:00:00</br>
+            Total Distance: 0 km</p>
+            </div>
         </div>
     </div>
+    <ion-scroll>
+        <div class="list">
+            <a class="item item-thumbnail-left" href="#">
+                <img ng-src="{{pictureUrl}}">
+                <p>Distance: 0 km</br>
+                ime: 00:00:00</br>
+                Avg. Pace: 0 min / km</p>
+            </a>
+        </div>
+    </ion-scroll>
   </ion-content>
 </ion-view>

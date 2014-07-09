@@ -39,20 +39,24 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     $window.fbAsyncInit = function(){
         FB.init({
             appId: '760732033979791',
-            nativeInterface: CDV.FB,
+            //nativeInterface: CDV.FB,
             channelUrl: 'template/channel.html',
             status: true,
             cookie: true,
             xfbml: true
         });
-        
-        //fbAuth.watchAuthStatusChange();
       
-        FB.getLoginStatus(function(response) {
+/*        FB.getLoginStatus(function(response) {
             loginCallback(response, $rootScope, $location);
         },
         {scope: 'public_profile,email'}
-        );
+        );*/
+      
+      
+                facebookConnectPlugin.getLoginStatus(function(response){
+                    loginCallback(response, $rootScope, $location);
+                    },
+                    function (response) { alert(JSON.stringify(response)) });
     };
         
     //boileplate code to load the Facebook JavaScript SDK
