@@ -1,5 +1,61 @@
 angular.module('starter.services', [])
 
+.factory('Workout', function(){
+    this.workouts = [];
+    this.users = [];
+    
+    this.setUser = function(userId, distance){
+        for(var i = 0; i < this.users.length; i++){
+            if(this.users[i].userId === userId){
+                this.users[i].totalDistance = parseFloat(this.users[i].totalDistance) + parseFloat(distance);
+                this.users[i].totalWorkout ++;
+                return;
+            }
+        }
+        
+        var user = {
+            userId: userId,
+            totalDistance: parseFloat(distance),
+            totalWorkout: 1
+        };
+        
+        this.users.push(user);
+    };
+    
+    this.setWorkout = function(userId, distance, time, route){
+        var workout = {
+            userId: userId,
+            distance: parseFloat(distance),
+            time: time,
+            route: route
+        };
+
+        this.workouts.push(workout);
+    };
+    
+    this.getUser = function(userId){
+        for(var i = 0; i < this.users.length; i++){
+            if(this.users[i].userId === userId){
+                return this.users[i];
+            }
+        }
+        return null;
+    }
+    
+    this.getWorkouts = function(userId){
+        var workoutPerUser = [];
+        for(var i = 0; i < this.workouts.length; i++){
+            if(this.workouts[i].userId === userId){
+                workoutPerUser.push(this.workouts[i]);
+            }
+        }
+        
+        return workoutPerUser;
+    }
+    
+    return this;
+})
+
 /**
  * A simple example service that returns some data.
  */

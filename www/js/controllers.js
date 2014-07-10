@@ -1,9 +1,29 @@
 angular.module('starter.controllers', [])
 
-.controller('DashCtrl', function($scope) {
+.controller('DashCtrl', function($scope, $rootScope, Workout) {
+    $scope.totalDistance = 0;
+    $scope.totalWorkout = 0;
+    $scope.workouts = null;
+    $scope.hasWorkouts = false;
+    
+    (function(){
+        var userInfo = Workout.getUser($rootScope.user.id);
+    
+        if(userInfo !== null){
+            $scope.totalWorkout = userInfo.totalWorkout;
+            $scope.totalDistance = userInfo.totalDistance;
+        }
+     
+        var workouts = Workout.getWorkouts($rootScope.user.id);
+     
+        if(workouts.length > 0){
+            $scope.workouts = workouts;
+            $scope.hasWorkouts = true;
+        }
+    }());
 })
 
-.controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout) {
+.controller('NewWorkoutCtrl', function($scope, $rootScope, $timeout, Workout) {
             $scope.hasStarted = false;
             $scope.buttonCaption = "Start Workout";
             $scope.timerString = "00:00:00";
@@ -197,6 +217,10 @@ angular.module('starter.controllers', [])
                     navigator.geolocation.clearWatch(watchLocationProcess);
                     watchLocationProcess = null;
                 }
+                var encodeRoute = google.maps.geometry.encoding.encodePath(path);
+            
+                Workout.setWorkout($rootScope.user.id, $scope.distance, $scope.timerString, encodeRoute);
+                Workout.setUser($rootScope.user.id, $scope.distance);
             };
             
 })

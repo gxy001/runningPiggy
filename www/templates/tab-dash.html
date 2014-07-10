@@ -4,17 +4,20 @@
         <div class="item item-thumbnail-left">
             <img ng-src="{{pictureUrl}}"></img>
             <h2>{{user.name}}</h2>
-            <p>Total Workout: 00:00:00</br>
-            Total Distance: 0 km</p>
+            <p>Total Workout: {{totalWorkout}}</br>
+            Total Distance: {{totalDistance}} km</p>
             </div>
         </div>
     </div>
+    <div ng-hide="hasWorkouts">
+    <p>No workout available yet. Go to the New Workout tab to start your first workout!</p>
+    </div>
     <ion-scroll>
         <div class="list">
-            <a class="item item-thumbnail-left" href="#">
+            <a class="item item-thumbnail-left" ng-repeat="workout in workouts track by $index" href="#">
                 <img ng-src="{{pictureUrl}}">
-                <p>Distance: 0 km</br>
-                ime: 00:00:00</br>
+                <p>Distance: {{workout.distance}} km</br>
+                Time: {{workout.time}}</br>
                 Avg. Pace: 0 min / km</p>
             </a>
         </div>
